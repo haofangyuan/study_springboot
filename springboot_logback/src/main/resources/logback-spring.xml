@@ -15,18 +15,17 @@ debug:
     <!--<logger name="org.springframework" level="WARN" />-->
 
     <contextName>logback</contextName>
-    <!--<property name="log.path" value="E:\\test\\logback.log" />-->
+    <property name="log.path" value="./" />
+    <property name="project.name" value="springboot_logback" />
+
     <property name="smtpHost" value="smtp.163.com" />
     <property name="smtpPort" value="25" />
     <property name="username" value="xx@163.com" />
     <property name="password" value="xxx" />
     <property name="SSL" value="false" />
+    <!-- 指定发送到那个邮箱，可设置多个<to>属性，指定多个目的邮箱 -->
     <property name="email_to" value="xx@163.com" />
     <property name="email_from" value="xx@163.com" />
-    <!-- 指定发送到那个邮箱，可设置多个<to>属性，指定多个目的邮箱 -->
-    <!--<property name="email_to" value="13581535474@163.com"/>-->
-    <!-- 指定发件人名称。如果设置成“Adam Smith &lt;smith@moral.org&gt; ”，则邮件发件人将会是“Adam Smith <smith@moral.org> ” -->
-    <!--<property name="email_from" value="logmonitor" />-->
     <property name="email_subject" value="【Error】: %logger" />
 
     <!--输出到控制台-->
@@ -35,24 +34,26 @@ debug:
              <level>ERROR</level>
          </filter>-->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}-%line  - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t %F:%L - %m%n</pattern>
         </encoder>
     </appender>
 
     <!--文件输出的格式设置 -->
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}</file>
+        <file>${log.path}/${project.name}.log</file>
 
         <!-- 文件输出的日志 的格式 -->
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} -%line - %msg%n</pattern>
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %contextName [%thread] %-5level %logger{36} -%line - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t %F:%L - %m%n</pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集，防止中文乱码 -->
         </encoder>
 
 
         <!-- 配置日志所生成的目录以及生成文件名的规则 在logs/mylog-2016-10-31.0.log -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <!--<fileNamePattern>%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>-->
             <!-- 如果按天来回滚，则最大保存时间为365天，365天之前的都将被清理掉 -->
             <maxHistory>365</maxHistory>
             <!-- 日志总保存量为10GB -->
