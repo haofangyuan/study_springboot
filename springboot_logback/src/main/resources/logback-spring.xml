@@ -19,13 +19,13 @@ debug:
     <property name="project.name" value="springboot_logback" />
 
     <property name="smtpHost" value="smtp.163.com" />
-    <property name="smtpPort" value="25" />
-    <property name="username" value="xx@163.com" />
+    <!--<property name="smtpPort" value="25" />-->
+    <property name="username" value="xxx@163.com" />
     <property name="password" value="xxx" />
     <property name="SSL" value="false" />
     <!-- 指定发送到那个邮箱，可设置多个<to>属性，指定多个目的邮箱 -->
-    <property name="email_to" value="xx@163.com" />
-    <property name="email_from" value="xx@163.com" />
+    <property name="email_to" value="xxx@qq.com" />
+    <property name="email_from" value="xxx@163.com" />
     <property name="email_subject" value="【Error】: %logger" />
 
     <!--输出到控制台-->
@@ -34,7 +34,7 @@ debug:
              <level>ERROR</level>
          </filter>-->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t %F:%L - %m%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:%4p %t %F:%L - %m%n</pattern>
         </encoder>
     </appender>
 
@@ -45,7 +45,7 @@ debug:
         <!-- 文件输出的日志 的格式 -->
         <encoder>
             <!--<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %contextName [%thread] %-5level %logger{36} -%line - %msg%n</pattern>-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t %F:%L - %m%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:%4p %t %F:%L - %m%n</pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集，防止中文乱码 -->
         </encoder>
 
@@ -61,7 +61,7 @@ debug:
 
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!--文件达到 最大128MB时会被压缩和切割 -->
+                <!--文件达到 最大30KB时会被压缩和切割 -->
                 <maxFileSize>30KB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
@@ -93,10 +93,6 @@ debug:
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <!--<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">-->
-            <!-- send just one log entry per email -->
-            <!--<bufferSize>1</bufferSize>-->
-        <!--</cyclicBufferTracker>-->
     </appender>
 
 
@@ -108,12 +104,12 @@ debug:
     </root>
 
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
-    <springProfile name="test,dev">
-        <logger name="com.hfy.controller" level="debug" />
-    </springProfile>
+    <!--<springProfile name="test,dev">-->
+        <!--<logger name="com.hfy.controller" level="debug" />-->
+    <!--</springProfile>-->
     <!-- 生产环境. -->
-    <springProfile name="prod">
-        <logger name="com.hfy.controller" level="ERROR" />
-    </springProfile>
+    <!--<springProfile name="prod">-->
+        <!--<logger name="com.hfy.controller" level="ERROR" />-->
+    <!--</springProfile>-->
 
 </configuration>
