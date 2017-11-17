@@ -1,0 +1,9 @@
+syntax="proto3";
+
+package com.hfy.network.bean;
+option java_package = "com.hfy.network.bean";
+option java_outer_classname = "UserProtos";
+
+message User{
+    string name = 1;
+}
