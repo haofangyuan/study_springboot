@@ -1,0 +1,4 @@
+#swagger
+swagger:
+  show: true
+  patterns: /test1/.* # /web/.* , /third/.*
