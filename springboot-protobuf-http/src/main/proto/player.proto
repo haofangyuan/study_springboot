@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.hfy.proto;
+option java_package = "com.hfy.proto";
+option java_outer_classname = "PlayerProtos";
+
+
+enum SportType {
+    UNDEFINED_SPORT = 0;
+    CRICKET = 1;
+    SOCCER = 2;
+    HOCKEY = 3;
+}
+
+message Player {
+    int32 id = 1;
+    string full_name = 2;
+    string short_name = 3;
+    SportType sport_type = 4;
+}
+
+message Team {
+    string name = 1;
+    repeated Player players = 2;
+}
+
+message PlayerList {
+    repeated Player players = 1;
+}
