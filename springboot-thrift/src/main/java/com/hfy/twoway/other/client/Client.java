@@ -1,0 +1,87 @@
+package com.hfy.twoway.other.client;
+
+import com.hfy.thrift.Message;
+import com.hfy.thrift.MessageService;
+import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Client that connects to the server and handles the sending and receiving
+ * of message objects. Will also attempt to reconnect if the server disappears.
+ *
+ * @author Joel Meyer
+ */
+public class Client implements MessageService.Iface {
+    private final ConnectionStatusMonitor connectionMonitor;
+    private final MessageSender sender;
+    private final MessageReceiver receiver;
+
+    private final String name;
+
+    private final TTransport transport;
+    private final TProtocol protocol;
+
+    private final List<MessageListener> listeners;
+
+    public Client(String name, String server, int port, MessageService.Iface messageHandler) {
+        this.name = name;
+        this.transport = new TSocket(server, port);
+        this.protocol = new TBinaryProtocol(transport);
+
+        this.connectionMonitor = new ConnectionStatusMonitor(transport);
+
+        this.sender = new MessageSender(protocol, connectionMonitor);
+        this.receiver = new MessageReceiver(protocol, messageHandler, connectionMonitor);
+
+        new Thread(sender).start();
+        new Thread(receiver).start();
+
+        this.connectionMonitor.tryOpen();
+
+        this.listeners = new ArrayList<MessageListener>();
+    }
+
+    public void addListener(MessageListener listener) {
+        listeners.add(listener);
+    }
+
+    public void sendMessageToServer(String msg) {
+        sender.send(new Message(name, msg));
+    }
+
+    @Override
+    public void sendMessage(Message msg) throws TException {
+        for (MessageListener listener : listeners) {
+            listener.messageReceived(msg);
+        }
+    }
+
+    private static final int port = 8890;
+    /**
+     * @param args
+     */
+    public static void main(String[] args) throws Exception {
+        MessageService.Iface handler = new MessageService.Iface() {
+            @Override
+            public void sendMessage(Message msg) throws TException {
+                System.out.println("client to Got msg: " + msg);
+            }
+        };
+
+
+        Client client = new Client("client", "localhost", port, handler);
+
+        client.sendMessageToServer("Hello there!");
+
+        for (int i = 0; i < 100; i++) {
+            client.sendMessageToServer(String.format("client to send Message %s", i));
+            Thread.sleep(1000);
+        }
+    }
+}

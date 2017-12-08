@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by hfy on 2017/12/7.
  */
-public class AppClient {
+public class AppClient1 {
 
     private static final String SERVER_IP = "localhost";
     private static final int SERVER_PORT = 8090;
@@ -33,7 +33,7 @@ public class AppClient {
             transport.open();
 
             try {
-                Thread.sleep(5 * 1000);
+                Thread.sleep(10 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -152,7 +152,7 @@ public class AppClient {
     }
 
     public static void main(String[] args) {
-        AppClient client = new AppClient();
+        AppClient1 client = new AppClient1();
         client.startClient();
 //        client.startTFramedTransportClient();
 //        client.startTFramedTransportAsynClient();
