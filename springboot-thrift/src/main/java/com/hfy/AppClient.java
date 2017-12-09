@@ -1,4 +1,4 @@
-package com.hfy.client;
+package com.hfy;
 
 import com.hfy.thrift.HelloService;
 import org.apache.thrift.TApplicationException;

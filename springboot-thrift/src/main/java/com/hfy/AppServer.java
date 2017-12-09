@@ -30,8 +30,8 @@ public class AppServer {
     private static void startServer() {
 
         try {
-            TServerSocket serverTransport = new TServerSocket(SERVER_PORT);
-            HelloService.Processor processor = new HelloService.Processor(new HelloServiceImpl());
+            TServerTransport serverTransport = new TServerSocket(SERVER_PORT);
+            HelloService.Processor processor = new HelloService.Processor<>(new HelloServiceImpl());
             TBinaryProtocol.Factory factory = new TBinaryProtocol.Factory();
 
             // 单线程服务器端，一般用于测试

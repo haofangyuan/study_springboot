@@ -1,7 +1,7 @@
-package com.hfy.twoway.server;
+package com.hfy.twoway.other.server;
 
 import com.hfy.thrift.MessageService;
-import org.apache.log4j.Logger;
+import com.hfy.twoway.other.server.MessageDistributor;import org.apache.log4j.Logger;
 
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.TProcessorFactory;
@@ -18,7 +18,7 @@ import org.apache.thrift.transport.TTransport;
  * @author Joel Meyer
  */
 public class Server {
-    private static final Logger LOGGER = Logger.getLogger(Server.class);
+    private static final Logger LOGGER = Logger.getLogger(MessageDistributor.Server.class);
 
     private static final int port = 8890;
     public static void main(String[] args) throws Exception {
@@ -31,10 +31,11 @@ public class Server {
         // Using our own TProcessorFactory gives us an opportunity to get
         // access to the transport right after the client connection is
         // accepted.
+        // 在客户端连接被接受后，使用您自己的处理器工厂为我们提供了一个访问传输权的机会。
         TProcessorFactory processorFactory = new TProcessorFactory(null) {
             @Override
             public TProcessor getProcessor(TTransport trans) {
-                messageDistributor.addClient(new MessageServiceClient(trans));
+                messageDistributor.addClient(new MessageDistributor.MessageServiceClient(trans));
                 return new MessageService.Processor(messageDistributor);
             }
         };

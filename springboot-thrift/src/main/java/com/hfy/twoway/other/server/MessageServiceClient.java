@@ -1,4 +1,4 @@
-package com.hfy.twoway.server;
+package com.hfy.twoway.other.server;
 
 import com.hfy.thrift.Message;
 import com.hfy.thrift.MessageService;
